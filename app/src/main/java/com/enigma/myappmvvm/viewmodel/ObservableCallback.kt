@@ -1,0 +1,23 @@
+package com.enigma.givetip.viewmodel
+
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
+import android.databinding.Observable
+import android.databinding.PropertyChangeRegistry
+import java.util.*
+
+abstract class ObservableCallback(application: Application) : AndroidViewModel(application),Observable {
+
+    private val mCallBacks : PropertyChangeRegistry by lazy{PropertyChangeRegistry()}
+
+    override fun addOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+        mCallBacks.add(callback)
+    }
+
+    override fun removeOnPropertyChangedCallback(callback: Observable.OnPropertyChangedCallback?) {
+        mCallBacks.remove(callback)
+    }
+    fun notifyChange(){
+        mCallBacks.notifyChange(this, 0)
+    }
+}
